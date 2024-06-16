@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.aboylan.curso.springboot.jpa.springboot_jpa_relationship.entities.Client;
 import com.aboylan.curso.springboot.jpa.springboot_jpa_relationship.entities.Invoice;
@@ -30,6 +31,7 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
 		manyToOneFindByIdClient();
 	}
 
+	@Transactional
 	public void manyToOne() {
 
 		Client client = new Client("John", "Doe");
@@ -42,6 +44,7 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
 		System.out.println(invoiceDB);
 	}
 
+	@Transactional
 	public void manyToOneFindByIdClient() {
 
 		Optional<Client> optionalClient = clientRepository.findById(1L);
