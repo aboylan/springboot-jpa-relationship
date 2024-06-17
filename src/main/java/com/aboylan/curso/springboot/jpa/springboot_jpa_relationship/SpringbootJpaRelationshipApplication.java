@@ -3,8 +3,6 @@ package com.aboylan.curso.springboot.jpa.springboot_jpa_relationship;
 import java.util.Arrays;
 import java.util.Optional;
 
-import javax.swing.text.html.Option;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
