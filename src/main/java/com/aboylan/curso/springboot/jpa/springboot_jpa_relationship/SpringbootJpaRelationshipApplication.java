@@ -1,8 +1,6 @@
 package com.aboylan.curso.springboot.jpa.springboot_jpa_relationship;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,13 +40,7 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
 		Invoice invoice1 = new Invoice("Compras de la casa", 5000L);
 		Invoice invoice2 = new Invoice("Compras de oficina", 8000L);
 
-		List<Invoice> invoices = new ArrayList<>();
-		invoices.add(invoice1);
-		invoices.add(invoice2);
-		client.setInvoices(invoices);
-
-		invoice1.setClient(client);
-		invoice2.setClient(client);
+		client.addInvoice(invoice1).addInvoice(invoice2);
 
 		clientRepository.save(client);
 
