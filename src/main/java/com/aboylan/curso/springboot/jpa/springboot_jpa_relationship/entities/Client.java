@@ -1,7 +1,7 @@
 package com.aboylan.curso.springboot.jpa.springboot_jpa_relationship.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -30,14 +30,14 @@ public class Client {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = "tbl_clientes_to_direcciones", joinColumns = @JoinColumn(name = "id_client"), inverseJoinColumns = @JoinColumn(name = "id_direcciones"), uniqueConstraints = @UniqueConstraint(columnNames = {
             "id_direcciones" }))
-    private List<Address> addresses;
+    private Set<Address> addresses;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "client")
-    private List<Invoice> invoices;
+    private Set<Invoice> invoices;
 
     public Client() {
-        addresses = new ArrayList<>();
-        invoices = new ArrayList<>();
+        addresses = new HashSet<>();
+        invoices = new HashSet<>();
     }
 
     public Client(String name, String lastname) {
@@ -70,19 +70,19 @@ public class Client {
         this.lastname = lastname;
     }
 
-    public List<Address> getAddresses() {
+    public Set<Address> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(List<Address> addresses) {
+    public void setAddresses(Set<Address> addresses) {
         this.addresses = addresses;
     }
 
-    public List<Invoice> getInvoices() {
+    public Set<Invoice> getInvoices() {
         return invoices;
     }
 
-    public void setInvoices(List<Invoice> invoices) {
+    public void setInvoices(Set<Invoice> invoices) {
         this.invoices = invoices;
     }
 
@@ -94,8 +94,9 @@ public class Client {
 
     @Override
     public String toString() {
-        return "{id=" + id + ", name=" + name + ", lastname=" + lastname + ", addresses=" + addresses
-                + ", invoices=" + invoices + "}";
+        return "{id=" + id + ", name=" + name + ", lastname=" + lastname +
+                ", addresses=" + addresses +
+                ", invoices=" + invoices + "}";
     }
 
 }
