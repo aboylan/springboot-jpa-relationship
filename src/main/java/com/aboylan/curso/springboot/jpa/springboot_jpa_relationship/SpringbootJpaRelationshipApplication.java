@@ -12,7 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.aboylan.curso.springboot.jpa.springboot_jpa_relationship.entities.Address;
 import com.aboylan.curso.springboot.jpa.springboot_jpa_relationship.entities.Client;
+import com.aboylan.curso.springboot.jpa.springboot_jpa_relationship.entities.ClientDetails;
 import com.aboylan.curso.springboot.jpa.springboot_jpa_relationship.entities.Invoice;
+import com.aboylan.curso.springboot.jpa.springboot_jpa_relationship.repositories.ClientDetailsRepository;
 import com.aboylan.curso.springboot.jpa.springboot_jpa_relationship.repositories.ClientRepository;
 import com.aboylan.curso.springboot.jpa.springboot_jpa_relationship.repositories.InvoiceRepository;
 
@@ -25,13 +27,44 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
 	@Autowired
 	private InvoiceRepository invoiceRepository;
 
+	@Autowired
+	private ClientDetailsRepository clientDetailsRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootJpaRelationshipApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-		removeInvoiceBidireccional();
+		oneToOneFindById();
+	}
+
+	@Transactional
+	public void oneToOneFindById() {
+
+		ClientDetails clientDetails = new ClientDetails(true, 5000);
+		clientDetailsRepository.save(clientDetails);
+
+		Optional<Client> clientOptional = clientRepository.findOne(2L);
+		clientOptional.ifPresent(client -> {
+			client.setClientDetails(clientDetails);
+			clientRepository.save(client);
+
+			System.out.println(client);
+		});
+	}
+
+	@Transactional
+	public void oneToOne() {
+
+		ClientDetails clientDetails = new ClientDetails(true, 5000);
+		clientDetailsRepository.save(clientDetails);
+
+		Client client = new Client("Erba", "Pura");
+		client.setClientDetails(clientDetails);
+		clientRepository.save(client);
+
+		System.out.println(client);
 	}
 
 	@Transactional
@@ -53,7 +86,7 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner {
 			// Invoice invoice3 = new Invoice("Compras de la casa", 5000L);
 			// invoice3.setId(1L);
 
-			Optional<Invoice> invoiceOptional = invoiceRepository.findById(2L);//Optional.of(invoice3);
+			Optional<Invoice> invoiceOptional = invoiceRepository.findById(2L);// Optional.of(invoice3);
 			invoiceOptional.ifPresent(invoice -> {
 				clientDb.removeInvoice(invoice);
 				clientRepository.save(clientDb);
